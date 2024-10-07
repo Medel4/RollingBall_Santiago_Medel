@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] float fuerza, fuerzaSalto;
+    private float h, v;
     Rigidbody rb;
         
     // Start is called before the first frame update
@@ -18,18 +19,39 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        saltar();
+
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
+
+            
+
+         
+    }
+    private void FixedUpdate()
+    {
 
         rb.AddForce(new Vector3(h, 0, v) * fuerza, ForceMode.Force);
-            
-        
+
+       
+
+    }
+    void saltar()
+    { 
+    
         if (Input.GetKeyDown("space"))
         {
 
-            GetComponent<Rigidbody>().AddForce(0, fuerzaSalto, 0, ForceMode.Impulse);
+                GetComponent<Rigidbody>().AddForce(0, fuerzaSalto, 0, ForceMode.Impulse);
 
         }
-        
+    
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Coleccionable"))
+        {
+            Destroy(other.gameObject);
+        }
     }
 }

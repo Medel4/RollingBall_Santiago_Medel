@@ -33,4 +33,5 @@ public class MovimientoNaranja : MonoBehaviour
         timer = timer + 1* Time.deltaTime;
         
     }
+    
 }

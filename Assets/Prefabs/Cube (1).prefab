@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4009091418947058408}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Coleccionable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,7 +100,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -119,6 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidad: 50
-  velocidadMovimiento: 2
+  velocidadMovimiento: 0.1
   rotacion: {x: 1, y: 1, z: 1}
   movimiento: {x: 0, y: 1, z: 0}
