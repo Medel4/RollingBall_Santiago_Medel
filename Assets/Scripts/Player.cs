@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -7,6 +8,8 @@ public class Player : MonoBehaviour
     [SerializeField] float fuerza, fuerzaSalto;
     private float h, v;
     Rigidbody rb;
+    int puntuacion;
+    [SerializeField] TMP_Text textoPuntuacion;
         
     // Start is called before the first frame update
     void Start()
@@ -24,7 +27,7 @@ public class Player : MonoBehaviour
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
-            
+        textoPuntuacion.SetText("Score: " + puntuacion);    
 
          
     }
@@ -33,6 +36,7 @@ public class Player : MonoBehaviour
 
         rb.AddForce(new Vector3(h, 0, v) * fuerza, ForceMode.Force);
 
+        
        
 
     }
@@ -52,6 +56,8 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Coleccionable"))
         {
             Destroy(other.gameObject);
+
+            puntuacion++;
         }
     }
 }
