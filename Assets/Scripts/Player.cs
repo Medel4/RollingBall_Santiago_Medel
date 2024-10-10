@@ -5,11 +5,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] float fuerza, fuerzaSalto;
+    [SerializeField] float fuerza, fuerzaSalto, distanciaDeteccionSuelo;
     private float h, v;
     Rigidbody rb;
     int puntuacion;
     [SerializeField] TMP_Text textoPuntuacion;
+    [SerializeField] Vector3 salto;
+    [SerializeField] LayerMask queEsSuelo;
+
+
         
     // Start is called before the first frame update
     void Start()
@@ -45,9 +49,11 @@ public class Player : MonoBehaviour
     
         if (Input.GetKeyDown("space"))
         {
+            if (DetectarSuelo() == true)
+            {
 
-                GetComponent<Rigidbody>().AddForce(0, fuerzaSalto, 0, ForceMode.Impulse);
-
+                rb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
+            }
         }
     
     }
@@ -59,5 +65,12 @@ public class Player : MonoBehaviour
 
             puntuacion++;
         }
+    }
+    bool DetectarSuelo()
+    {
+
+        bool resultado = Physics.Raycast(transform.position, new Vector3(0, -1, 0), distanciaDeteccionSuelo);
+        return resultado;
+    
     }
 }
