@@ -6,12 +6,13 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] float fuerza, fuerzaSalto, distanciaDeteccionSuelo;
-    private float h, v;
+    private float h, v, tiempo;
     Rigidbody rb;
     int puntuacion, vida = 10;
-    [SerializeField] TMP_Text textoPuntuacion, textoVidas;
+    [SerializeField] TMP_Text textoPuntuacion, textoVidas, textoTiempo;
     [SerializeField] Vector3 salto, respawn, trampolin;
     [SerializeField] LayerMask queEsSuelo;
+    [SerializeField] bool jugando = true;
 
 
 
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour
 
 
         rb = GetComponent<Rigidbody>();
+        tiempo = 0;
         
     }
 
@@ -30,11 +32,19 @@ public class Player : MonoBehaviour
     {
         saltar();
 
+        if (jugando)
+        {
+
+            TiempoPartida();
+
+        }
+
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
         textoPuntuacion.SetText("Score: " + puntuacion);
         textoVidas.SetText("HP: " + vida);
+        textoTiempo.SetText("Tiempo: " + tiempo);
 
          
     }
@@ -83,15 +93,28 @@ public class Player : MonoBehaviour
 
 
         }
+        if (other.gameObject.CompareTag("RetenedorBolas1"))
+        {
+
+            Destroy(other.gameObject);
+
+        }
     }
     void OnCollisionEnter(Collision other)
     {
+
 
         if (other.gameObject.CompareTag("Trampolin"))
         {
             rb.AddForce(0, 10, 0, ForceMode.Impulse);
         }
- 
+
+        if (other.gameObject.CompareTag("Bolas"))
+        {
+            vida--;
+        }
+
+
     }
     bool DetectarSuelo()
     {
@@ -110,6 +133,12 @@ public class Player : MonoBehaviour
         rb.isKinematic = false;
         vida--;vida--;
         
+    }
+    void TiempoPartida()
+    {
+
+        tiempo = tiempo + 1 * Time.deltaTime;
+    
     }
 
 }

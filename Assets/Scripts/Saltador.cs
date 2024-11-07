@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class Saltador : MonoBehaviour
 {
-    int timer;
+    [SerializeField] float velocidad, duracion;
+    [SerializeField] Vector3 direccion;
+    float timer = 0;
+    [SerializeField] bool subir = false;
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (subir == true)
+        {
+            transform.Translate(direccion * velocidad * Time.deltaTime, Space.World);
+
+        }
     }
 
     // Update is called once per frame
@@ -19,8 +26,6 @@ public class Saltador : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-
-        transform.Translate(0, 6, 0);
-
+        subir = true;
     }
 }

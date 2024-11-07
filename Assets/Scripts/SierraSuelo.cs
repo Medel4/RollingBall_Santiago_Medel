@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SierraSuelo : MonoBehaviour
 {
-    [SerializeField] float velocidad;
+    [SerializeField] float velocidad, velocidadDeGiro;
     [SerializeField] Vector3 direccion;
     float timer = 0;
     // Start is called before the first frame update
@@ -29,6 +29,8 @@ public class SierraSuelo : MonoBehaviour
             timer = 0;
 
         }
+
+       
 
         timer = timer + 1 * Time.deltaTime;
 

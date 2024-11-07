@@ -9,6 +9,9 @@ TagManager:
   - PinchosRodantes
   - Agua
   - Trampolin
+  - Bolas
+  - RetenedorBolas1
+  - Final
   layers:
   - Default
   - TransparentFX
