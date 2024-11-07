@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking.PlayerConnection;
+using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] float fuerza, fuerzaSalto, distanciaDeteccionSuelo;
-    private float h, v, tiempo;
+    private float h, v, tiempo, timerCamaraLenta = 3;
     Rigidbody rb;
     int puntuacion, vida = 10;
     [SerializeField] TMP_Text textoPuntuacion, textoVidas, textoTiempo;
-    [SerializeField] Vector3 salto, respawn, trampolin;
+    [SerializeField] Vector3 salto, respawn, trampolin, escalaInicial, EscalaFinal;
     [SerializeField] LayerMask queEsSuelo;
     [SerializeField] bool jugando = true;
+    [SerializeField] GameObject camaraPrincipal, camaraFinal;        
 
 
 
@@ -45,6 +48,21 @@ public class Player : MonoBehaviour
         textoPuntuacion.SetText("Score: " + puntuacion);
         textoVidas.SetText("HP: " + vida);
         textoTiempo.SetText("Tiempo: " + tiempo);
+
+        if (timerCamaraLenta <= 2)
+        {
+            Time.timeScale = 0.5f;
+            Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            timerCamaraLenta+= 1 * Time.deltaTime;
+            Debug.Log("FURULAAAAAAAAAAA");
+        }
+        else
+        {
+
+            Time.timeScale = 1;
+            Time.fixedDeltaTime = 0.02f;
+
+        }
 
          
     }
@@ -99,6 +117,16 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
 
         }
+        if (other.gameObject.CompareTag("Final"))
+        {
+
+            timerCamaraLenta = 0;
+            jugando = false;
+            transform.localScale = Vector3.Lerp(escalaInicial, EscalaFinal, 1);
+
+
+        }
+        
     }
     void OnCollisionEnter(Collision other)
     {
@@ -140,5 +168,5 @@ public class Player : MonoBehaviour
         tiempo = tiempo + 1 * Time.deltaTime;
     
     }
-
+    
 }
