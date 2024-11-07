@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     Rigidbody rb;
     int puntuacion, vida = 10;
     [SerializeField] TMP_Text textoPuntuacion, textoVidas;
-    [SerializeField] Vector3 salto, respawn;
+    [SerializeField] Vector3 salto, respawn, trampolin;
     [SerializeField] LayerMask queEsSuelo;
 
 
@@ -83,6 +83,15 @@ public class Player : MonoBehaviour
 
 
         }
+    }
+    void OnCollisionEnter(Collision other)
+    {
+
+        if (other.gameObject.CompareTag("Trampolin"))
+        {
+            rb.AddForce(0, 10, 0, ForceMode.Impulse);
+        }
+ 
     }
     bool DetectarSuelo()
     {
