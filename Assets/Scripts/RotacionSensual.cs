@@ -19,7 +19,7 @@ public class RotacionSensual : MonoBehaviour
     void Update()
     {
 
-        transform.Rotate(rotacion * velocidad * Time.deltaTime, Space.World);
+        transform.Rotate(rotacion * velocidad * Time.deltaTime, Space.Self);
 
 
         

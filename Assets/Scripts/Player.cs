@@ -8,16 +8,18 @@ public class Player : MonoBehaviour
     [SerializeField] float fuerza, fuerzaSalto, distanciaDeteccionSuelo;
     private float h, v;
     Rigidbody rb;
-    int puntuacion;
-    [SerializeField] TMP_Text textoPuntuacion;
-    [SerializeField] Vector3 salto;
+    int puntuacion, vida = 10;
+    [SerializeField] TMP_Text textoPuntuacion, textoVidas;
+    [SerializeField] Vector3 salto, respawn;
     [SerializeField] LayerMask queEsSuelo;
+
 
 
         
     // Start is called before the first frame update
     void Start()
     {
+
 
         rb = GetComponent<Rigidbody>();
         
@@ -31,7 +33,8 @@ public class Player : MonoBehaviour
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
-        textoPuntuacion.SetText("Score: " + puntuacion);    
+        textoPuntuacion.SetText("Score: " + puntuacion);
+        textoVidas.SetText("HP: " + vida);
 
          
     }
@@ -65,6 +68,21 @@ public class Player : MonoBehaviour
 
             puntuacion++;
         }
+
+        if (other.gameObject.CompareTag("PinchosRodantes"))
+        {
+
+            vida--;
+
+        }
+
+        if (other.gameObject.CompareTag("Agua"))
+        {
+
+            TepearASpawn();
+
+
+        }
     }
     bool DetectarSuelo()
     {
@@ -73,4 +91,16 @@ public class Player : MonoBehaviour
         return resultado;
     
     }
+    private void TepearASpawn()
+    {
+
+        rb.isKinematic = true;
+        rb.velocity = Vector3.zero;
+        transform.position = respawn;
+
+        rb.isKinematic = false;
+        vida--;vida--;
+        
+    }
+
 }
