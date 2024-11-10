@@ -6,7 +6,6 @@ public class Saltador : MonoBehaviour
 {
     [SerializeField] float velocidad, duracion;
     [SerializeField] Vector3 direccion;
-    float timer = 0;
     [SerializeField] bool subir = false;
     // Start is called before the first frame update
     void Start()
