@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     Rigidbody rb;
     int puntuacion, vida = 10;
     [SerializeField] TMP_Text textoPuntuacion, textoVidas, textoTiempo;
-    [SerializeField] Vector3 salto, respawn, trampolin, escalaInicial, EscalaFinal;
+    [SerializeField] Vector3 salto, respawn, trampolin;
     [SerializeField] LayerMask queEsSuelo;
     [SerializeField] bool jugando = true;
     [SerializeField] GameObject camaraPrincipal, camaraFinal;        
@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         tiempo = 0;
+        camaraFinal.SetActive(false);
         
     }
 
@@ -54,7 +55,7 @@ public class Player : MonoBehaviour
             Time.timeScale = 0.5f;
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
             timerCamaraLenta+= 1 * Time.deltaTime;
-            Debug.Log("FURULAAAAAAAAAAA");
+            
         }
         else
         {
@@ -63,8 +64,8 @@ public class Player : MonoBehaviour
             Time.fixedDeltaTime = 0.02f;
 
         }
+        
 
-         
     }
     private void FixedUpdate()
     {
@@ -104,6 +105,13 @@ public class Player : MonoBehaviour
 
         }
 
+        if (other.gameObject.CompareTag("Rodillo"))
+        {
+
+            vida -= 5;
+
+        }
+
         if (other.gameObject.CompareTag("Agua"))
         {
 
@@ -122,8 +130,11 @@ public class Player : MonoBehaviour
 
             timerCamaraLenta = 0;
             jugando = false;
-            transform.localScale = Vector3.Lerp(escalaInicial, EscalaFinal, 1);
+            transform.localScale = new Vector3(2, 2, 2);
 
+            camaraPrincipal.SetActive(false);
+            camaraFinal.SetActive(true);
+            
 
         }
         
