@@ -105,13 +105,6 @@ public class Player : MonoBehaviour
 
         }
 
-        if (other.gameObject.CompareTag("Rodillo"))
-        {
-
-            vida -= 5;
-
-        }
-
         if (other.gameObject.CompareTag("Agua"))
         {
 
@@ -150,7 +143,13 @@ public class Player : MonoBehaviour
 
         if (other.gameObject.CompareTag("Bolas"))
         {
-            vida--;
+            vida-= 2;
+        }
+        if (other.gameObject.CompareTag("Rodillo"))
+        {
+
+            vida-= 5;
+
         }
 
 
