@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking.PlayerConnection;
 using UnityEngine.Rendering.Universal;
 
+
 public class Player : MonoBehaviour
 {
     [SerializeField] float fuerza, fuerzaSalto, distanciaDeteccionSuelo;
@@ -15,7 +16,9 @@ public class Player : MonoBehaviour
     [SerializeField] Vector3 salto, respawn, trampolin;
     [SerializeField] LayerMask queEsSuelo;
     [SerializeField] bool jugando = true;
-    [SerializeField] GameObject camaraPrincipal, camaraFinal;        
+    [SerializeField] GameObject camaraPrincipal, camaraFinal;
+    [SerializeField] AudioClip sonidoColeccionable, sonidoVictoria, sonidoSalto, sonidoDaño;
+    [SerializeField] AudioManager manager;
 
 
 
@@ -85,6 +88,7 @@ public class Player : MonoBehaviour
             {
 
                 rb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
+                manager.ReproducirSonido(sonidoSalto);
             }
         }
     
@@ -94,6 +98,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Coleccionable"))
         {
             Destroy(other.gameObject);
+            manager.ReproducirSonido(sonidoColeccionable);
 
             puntuacion++;
         }
@@ -102,6 +107,7 @@ public class Player : MonoBehaviour
         {
 
             vida--;
+            manager.ReproducirSonido(sonidoDaño);
 
         }
 
@@ -120,6 +126,8 @@ public class Player : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Final"))
         {
+
+            manager.ReproducirSonido(sonidoVictoria);
 
             timerCamaraLenta = 0;
             jugando = false;
@@ -144,11 +152,13 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Bolas"))
         {
             vida-= 2;
+            manager.ReproducirSonido(sonidoDaño);
         }
         if (other.gameObject.CompareTag("Rodillo"))
         {
 
             vida-= 5;
+            manager.ReproducirSonido(sonidoDaño);
 
         }
 
