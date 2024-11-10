@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking.PlayerConnection;
 using UnityEngine.Rendering.Universal;
@@ -15,9 +16,9 @@ public class Player : MonoBehaviour
     [SerializeField] TMP_Text textoPuntuacion, textoVidas, textoTiempo;
     [SerializeField] Vector3 salto, respawn, trampolin;
     [SerializeField] LayerMask queEsSuelo;
-    [SerializeField] bool jugando = true;
-    [SerializeField] GameObject camaraPrincipal, camaraFinal;
-    [SerializeField] AudioClip sonidoColeccionable, sonidoVictoria, sonidoSalto, sonidoDaño;
+    [SerializeField] bool jugando = false;
+    [SerializeField] GameObject camaraPrincipal, camaraFinal, camaraMuerte, canvasRestart;
+    [SerializeField] AudioClip sonidoColeccionable, sonidoVictoria, sonidoSalto, sonidoDaño, sonidoAgua, sonidoTrampolin;
     [SerializeField] AudioManager manager;
 
 
@@ -31,6 +32,9 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         tiempo = 0;
         camaraFinal.SetActive(false);
+        camaraMuerte.SetActive(false);
+        canvasRestart.SetActive(false);
+        jugando = false;
         
     }
 
@@ -38,7 +42,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         saltar();
-
+        
         if (jugando)
         {
 
@@ -58,6 +62,7 @@ public class Player : MonoBehaviour
             Time.timeScale = 0.5f;
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
             timerCamaraLenta+= 1 * Time.deltaTime;
+            canvasRestart.SetActive(true);
             
         }
         else
@@ -65,6 +70,17 @@ public class Player : MonoBehaviour
 
             Time.timeScale = 1;
             Time.fixedDeltaTime = 0.02f;
+
+        }
+
+        if (vida <= 0)
+        {
+
+            vida = 0;
+            Destroy(gameObject);
+            canvasRestart.SetActive(true);
+            camaraPrincipal.SetActive(false);
+            camaraMuerte.SetActive(true);
 
         }
         
@@ -115,12 +131,14 @@ public class Player : MonoBehaviour
         {
 
             TepearASpawn();
+            manager.ReproducirSonido(sonidoAgua);
 
 
         }
         if (other.gameObject.CompareTag("RetenedorBolas1"))
         {
 
+            jugando = true;
             Destroy(other.gameObject);
 
         }
@@ -147,6 +165,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Trampolin"))
         {
             rb.AddForce(0, 10, 0, ForceMode.Impulse);
+            manager.ReproducirSonido(sonidoTrampolin);
         }
 
         if (other.gameObject.CompareTag("Bolas"))

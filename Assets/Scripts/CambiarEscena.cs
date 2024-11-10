@@ -14,4 +14,8 @@ public class CambiarEscena : MonoBehaviour
     {
         Application.Quit();
     }
+    public void Restart(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 }
